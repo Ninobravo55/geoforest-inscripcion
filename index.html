@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reserva tu cupo — Especialización GeoForest Tools | Geomatica Ambiental</title>
+<style>
+  :root {
+    --verde-bosque: #1B5E20;
+    --verde-medio: #2E7D32;
+    --turquesa: #00BFA5;
+    --turquesa-claro: #80FFEA;
+    --azul-oscuro: #0D47A1;
+    --azul-medio: #1565C0;
+    --gris-bg: #F5F9F7;
+    --gris-borde: #B2DFDB;
+    --gris-texto: #455A64;
+    --gris-claro: #607D8B;
+    --naranja: #FF6F00;
+    --dorado: #FFB300;
+    --rojo-error: #D32F2F;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    color: #102027;
+    background: var(--gris-bg);
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  /* ============================================================
+     HEADER / BRANDING
+     ============================================================ */
+  .topbar {
+    background:
+      linear-gradient(135deg, rgba(13,71,161,0.92) 0%, rgba(27,94,32,0.94) 55%, rgba(0,191,165,0.88) 100%);
+    color: white;
+    padding: 14px 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+
+  .topbar-inner {
+    max-width: 700px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .brand-mark {
+    width: 42px;
+    height: 42px;
+    background: rgba(255,255,255,0.18);
+    border: 1.5px solid rgba(255,255,255,0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .brand-text { line-height: 1.15; }
+  .brand-text .l1 { font-size: 15px; font-weight: 700; }
+  .brand-text .l2 { font-size: 10px; font-weight: 400; letter-spacing: 3px; opacity: 0.85; text-transform: uppercase; }
+
+  /* ============================================================
+     HERO
+     ============================================================ */
+  .hero {
+    background:
+      linear-gradient(135deg, var(--azul-oscuro) 0%, var(--verde-bosque) 60%, var(--turquesa) 100%);
+    color: white;
+    padding: 36px 20px 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+
+  .hero-inner {
+    max-width: 700px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--turquesa-claro);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .hero h1 {
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+
+  .hero h1 .accent { color: var(--turquesa-claro); }
+
+  .hero-sub {
+    font-size: 14px;
+    opacity: 0.92;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  /* ============================================================
+     RESUMEN DEL CURSO
+     ============================================================ */
+  .resumen {
+    max-width: 700px;
+    margin: -22px auto 0;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(13,71,161,0.12);
+    padding: 16px;
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+    gap: 8px;
+  }
+
+  .resumen-item {
+    text-align: center;
+    padding: 8px 6px;
+    border-right: 1px solid #E0E0E0;
+  }
+  .resumen-item:last-child { border-right: none; }
+
+  @media (max-width: 600px) {
+    .resumen-item { border-right: none; border-bottom: 1px solid #E0E0E0; padding-bottom: 10px; }
+    .resumen-item:last-child { border-bottom: none; }
+  }
+
+  .resumen-item .ic {
+    width: 26px;
+    height: 26px;
+    margin: 0 auto 4px;
+    color: var(--turquesa);
+  }
+
+  .resumen-item .lab {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--gris-claro);
+  }
+
+  .resumen-item .val {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--azul-oscuro);
+  }
+
+  /* ============================================================
+     FORMULARIO
+     ============================================================ */
+  .form-wrap {
+    max-width: 700px;
+    margin: 24px auto;
+    padding: 0 20px 40px;
+  }
+
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    margin-top: 28px;
+  }
+
+  .section-title .num {
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, var(--turquesa), var(--verde-bosque));
+    color: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  .section-title h2 {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--azul-oscuro);
+    line-height: 1.1;
+  }
+
+  .section-title .desc {
+    font-size: 11px;
+    color: var(--gris-claro);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-top: 2px;
+  }
+
+  .card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  @media (max-width: 600px) {
+    .field-row { grid-template-columns: 1fr; }
+  }
+
+  .field { display: flex; flex-direction: column; }
+
+  .field label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--gris-texto);
+    margin-bottom: 5px;
+    letter-spacing: 0.3px;
+  }
+
+  .field label .req {
+    color: var(--rojo-error);
+    margin-left: 2px;
+  }
+
+  .field input, .field select, .field textarea {
+    border: 1.5px solid #CFD8DC;
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: inherit;
+    color: #102027;
+    background: white;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    outline: none;
+  }
+
+  .field input:focus, .field select:focus, .field textarea:focus {
+    border-color: var(--turquesa);
+    box-shadow: 0 0 0 3px rgba(0,191,165,0.15);
+  }
+
+  .field input.error, .field select.error {
+    border-color: var(--rojo-error);
+  }
+
+  .field-error {
+    font-size: 11px;
+    color: var(--rojo-error);
+    margin-top: 4px;
+    display: none;
+  }
+
+  .field-error.show { display: block; }
+
+  .field-hint {
+    font-size: 11px;
+    color: var(--gris-claro);
+    margin-top: 4px;
+  }
+
+  .field-full { grid-column: 1 / -1; }
+
+  /* ============================================================
+     MÉTODOS DE PAGO (radio cards)
+     ============================================================ */
+  .pay-methods {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .pay-method {
+    position: relative;
+    cursor: pointer;
+    display: block;
+  }
+
+  .pay-method input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .pay-method-inner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 2px solid #CFD8DC;
+    border-radius: 8px;
+    background: white;
+    transition: all 0.18s ease;
+  }
+
+  .pay-method:hover .pay-method-inner {
+    border-color: var(--turquesa);
+    box-shadow: 0 2px 8px rgba(0,191,165,0.12);
+  }
+
+  .pay-method input[type="radio"]:checked + .pay-method-inner {
+    border-color: var(--turquesa);
+    background: linear-gradient(135deg, #E0F2F1 0%, #ffffff 100%);
+    box-shadow: 0 4px 14px rgba(0,191,165,0.18);
+  }
+
+  .pay-method input[type="radio"]:checked + .pay-method-inner::after {
+    content: '✓';
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    width: 18px;
+    height: 18px;
+    background: var(--turquesa);
+    color: white;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pay-method-ic {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .pay-method-ic svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .pay-method-text { flex: 1; min-width: 0; }
+  .pay-method-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--azul-oscuro);
+    line-height: 1.15;
+  }
+  .pay-method-sub {
+    font-size: 10.5px;
+    color: var(--gris-claro);
+    margin-top: 2px;
+    line-height: 1.2;
+  }
+
+  /* ============================================================
+     INFO PAGO (bloque dinámico)
+     ============================================================ */
+  .pay-info {
+    background: linear-gradient(135deg, #E0F2F1 0%, #F1F8E9 100%);
+    border: 1px solid var(--gris-borde);
+    border-left: 4px solid var(--turquesa);
+    padding: 14px 16px;
+    border-radius: 6px;
+    margin-bottom: 14px;
+    font-size: 13px;
+    color: var(--gris-texto);
+  }
+
+  .pay-info strong { color: var(--verde-bosque); }
+
+  /* ============================================================
+     CHECKBOX
+     ============================================================ */
+  .check-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px;
+    background: var(--gris-bg);
+    border-radius: 6px;
+    margin-top: 8px;
+  }
+
+  .check-row input[type="checkbox"] {
+    width: 18px; height: 18px;
+    margin-top: 2px;
+    accent-color: var(--turquesa);
+    flex-shrink: 0;
+  }
+
+  .check-row label {
+    font-size: 12px;
+    color: var(--gris-texto);
+    line-height: 1.4;
+  }
+
+  /* ============================================================
+     BOTÓN ENVIAR
+     ============================================================ */
+  .submit-row {
+    margin-top: 24px;
+    text-align: center;
+  }
+
+  .btn-submit {
+    background: linear-gradient(135deg, var(--verde-bosque), var(--turquesa));
+    color: white;
+    border: none;
+    padding: 16px 32px;
+    border-radius: 60px;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 4px 14px rgba(27,94,32,0.3);
+    transition: transform 0.15s, box-shadow 0.15s;
+    width: 100%;
+    max-width: 380px;
+    justify-content: center;
+  }
+
+  .btn-submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(27,94,32,0.4);
+  }
+
+  .btn-submit:active {
+    transform: translateY(0);
+  }
+
+  .btn-submit svg {
+    width: 22px;
+    height: 22px;
+    fill: white;
+  }
+
+  .submit-note {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--gris-claro);
+  }
+
+  /* ============================================================
+     CUPOS / URGENCIA
+     ============================================================ */
+  .urgency {
+    background: linear-gradient(135deg, var(--naranja), var(--dorado));
+    color: white;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 2px 10px rgba(255,111,0,0.25);
+  }
+
+  .urgency-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .urgency-text { font-size: 13px; line-height: 1.35; }
+  .urgency-text strong { font-weight: 800; }
+
+  /* ============================================================
+     PANTALLA DE CONFIRMACIÓN
+     ============================================================ */
+  .confirmation {
+    display: none;
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+
+  .confirmation.show { display: block; }
+
+  .conf-card {
+    background: white;
+    border-radius: 14px;
+    padding: 32px 24px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  }
+
+  .conf-icon {
+    width: 72px; height: 72px;
+    background: linear-gradient(135deg, var(--turquesa), var(--verde-bosque));
+    border-radius: 50%;
+    margin: 0 auto 18px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .conf-icon svg { width: 36px; height: 36px; fill: white; }
+
+  .conf-card h2 {
+    color: var(--azul-oscuro);
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+
+  .conf-card p {
+    color: var(--gris-texto);
+    font-size: 14px;
+    margin-bottom: 14px;
+  }
+
+  .steps {
+    background: var(--gris-bg);
+    border-radius: 8px;
+    padding: 18px;
+    margin: 18px 0;
+    text-align: left;
+  }
+
+  .steps ol {
+    margin-left: 18px;
+    color: var(--gris-texto);
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .steps ol strong { color: var(--azul-oscuro); }
+
+  .conf-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 18px;
+    flex-wrap: wrap;
+  }
+
+  .btn-secondary {
+    background: white;
+    color: var(--verde-bosque);
+    border: 2px solid var(--verde-bosque);
+    padding: 10px 18px;
+    border-radius: 40px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .btn-secondary:hover {
+    background: var(--verde-bosque);
+    color: white;
+  }
+
+  /* ============================================================
+     FOOTER
+     ============================================================ */
+  .footer {
+    background: #102027;
+    color: white;
+    padding: 22px 20px;
+    text-align: center;
+    font-size: 12px;
+    margin-top: 40px;
+  }
+
+  .footer-brand { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+  .footer a { color: var(--turquesa-claro); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<!-- ====================== TOPBAR ====================== -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand-mark">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="#80FFEA" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2 L7 9 H9 L5 15 H9 L4 21 H20 L15 15 H19 L17 9 H19 Z M11 21 V17 H13 V21 Z"/>
+      </svg>
+    </div>
+    <div class="brand-text">
+      <div class="l1">Geomatica Ambiental</div>
+      <div class="l2">Especialízate con los mejores</div>
+    </div>
+  </div>
+</header>
+
+<!-- ====================== FORMULARIO ====================== -->
+<div id="form-screen">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Reserva de cupo · Julio 2026</div>
+      <h1>Asegura tu lugar en la<br><span class="accent">Especialización GeoForest Tools</span></h1>
+      <p class="hero-sub">Completa el formulario y elige tu método de pago. Recibirás por WhatsApp las instrucciones específicas para tu caso.</p>
+    </div>
+  </section>
+
+  <!-- RESUMEN -->
+  <div class="resumen">
+    <div class="resumen-item">
+      <svg class="ic" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M19 4h-2V2h-2v2H9V2H7v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM5 7V6h14v1H5z"/></svg>
+      <div class="val">01-03 Jul</div>
+      <div class="lab">2026</div>
+    </div>
+    <div class="resumen-item">
+      <svg class="ic" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z"/></svg>
+      <div class="val">18:00 — 21:00</div>
+      <div class="lab">Hora Perú</div>
+    </div>
+    <div class="resumen-item">
+      <svg class="ic" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4V6h16v12z"/></svg>
+      <div class="val">Google Meet</div>
+      <div class="lab">Virtual</div>
+    </div>
+    <div class="resumen-item">
+      <svg class="ic" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
+      <div class="val">40 horas</div>
+      <div class="lab">Lectivas</div>
+    </div>
+  </div>
+
+  <!-- FORMULARIO -->
+  <div class="form-wrap">
+
+    <!-- Urgencia -->
+    <div class="urgency">
+      <div class="urgency-icon">🔥</div>
+      <div class="urgency-text">
+        <strong>Precio de lanzamiento S/ 100 (USD 35)</strong> — válido hasta el <strong>19 de junio de 2026</strong>. Después subirá a S/ 200 / USD 70.
+      </div>
+    </div>
+
+    <!-- Datos personales -->
+    <div class="section-title">
+      <div class="num">1</div>
+      <div>
+        <h2>Datos personales</h2>
+        <div class="desc">Información del participante</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="field-row">
+        <div class="field">
+          <label>Nombres <span class="req">*</span></label>
+          <input type="text" id="nombres" placeholder="Ej: María Lucía" required>
+          <div class="field-error" id="err-nombres">Campo requerido</div>
+        </div>
+        <div class="field">
+          <label>Apellidos <span class="req">*</span></label>
+          <input type="text" id="apellidos" placeholder="Ej: García Torres" required>
+          <div class="field-error" id="err-apellidos">Campo requerido</div>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>DNI / Pasaporte <span class="req">*</span></label>
+          <input type="text" id="dni" placeholder="Ej: 12345678" required>
+          <div class="field-error" id="err-dni">Campo requerido</div>
+        </div>
+        <div class="field">
+          <label>Correo electrónico <span class="req">*</span></label>
+          <input type="email" id="email" placeholder="tucorreo@ejemplo.com" required>
+          <div class="field-error" id="err-email">Ingresa un correo válido</div>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>WhatsApp (con código país) <span class="req">*</span></label>
+          <input type="tel" id="whatsapp" placeholder="Ej: +51 987654321" required>
+          <div class="field-error" id="err-whatsapp">Ingresa tu número con código país</div>
+          <div class="field-hint">Es el número al que te llegará la confirmación y el enlace del aula virtual.</div>
+        </div>
+        <div class="field">
+          <label>País <span class="req">*</span></label>
+          <select id="pais" required>
+            <option value="">Selecciona...</option>
+            <option value="Perú">Perú</option>
+            <option value="Colombia">Colombia</option>
+            <option value="Ecuador">Ecuador</option>
+            <option value="Bolivia">Bolivia</option>
+            <option value="Chile">Chile</option>
+            <option value="Argentina">Argentina</option>
+            <option value="México">México</option>
+            <option value="Brasil">Brasil</option>
+            <option value="Venezuela">Venezuela</option>
+            <option value="España">España</option>
+            <option value="Otro">Otro</option>
+          </select>
+          <div class="field-error" id="err-pais">Selecciona tu país</div>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field field-full">
+          <label>Ciudad <span class="req">*</span></label>
+          <input type="text" id="ciudad" placeholder="Ej: Lima" required>
+          <div class="field-error" id="err-ciudad">Campo requerido</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Datos profesionales -->
+    <div class="section-title">
+      <div class="num">2</div>
+      <div>
+        <h2>Información profesional</h2>
+        <div class="desc">Tu perfil para el aula virtual</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="field-row">
+        <div class="field">
+          <label>Profesión / Especialidad <span class="req">*</span></label>
+          <select id="profesion" required>
+            <option value="">Selecciona...</option>
+            <option value="Ing. Ambiental">Ing. Ambiental</option>
+            <option value="Ing. Forestal">Ing. Forestal</option>
+            <option value="Ing. Agrónoma/o">Ing. Agrónoma/o</option>
+            <option value="Ing. Geógrafa/o">Ing. Geógrafa/o</option>
+            <option value="Bióloga/o">Bióloga/o</option>
+            <option value="Geógrafa/o">Geógrafa/o</option>
+            <option value="Ing. Geomática">Ing. Geomática</option>
+            <option value="Estudiante universitaria/o">Estudiante universitaria/o</option>
+            <option value="Investigador/Consultor">Investigador / Consultor</option>
+            <option value="Otra">Otra</option>
+          </select>
+          <div class="field-error" id="err-profesion">Selecciona una opción</div>
+        </div>
+        <div class="field">
+          <label>Institución / Empresa</label>
+          <input type="text" id="institucion" placeholder="(Opcional)">
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field field-full">
+          <label>¿Cómo te enteraste del curso?</label>
+          <select id="origen">
+            <option value="">(Opcional)</option>
+            <option value="Facebook">Facebook</option>
+            <option value="Instagram">Instagram</option>
+            <option value="LinkedIn">LinkedIn</option>
+            <option value="YouTube">YouTube</option>
+            <option value="WhatsApp/Recomendación">WhatsApp / Recomendación</option>
+            <option value="Google">Google</option>
+            <option value="Otro">Otro</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Información de pago -->
+    <div class="section-title">
+      <div class="num">3</div>
+      <div>
+        <h2>Forma de pago</h2>
+        <div class="desc">5 métodos disponibles · Confirmación por WhatsApp</div>
+      </div>
+    </div>
+
+    <div class="card">
+
+      <!-- Grid de métodos de pago -->
+      <label style="display:block;font-size:12px;font-weight:600;color:var(--gris-texto);margin-bottom:8px;letter-spacing:0.3px;">Elige tu método de pago preferido <span class="req">*</span></label>
+
+      <div class="pay-methods">
+        <label class="pay-method" data-method="yape">
+          <input type="radio" name="metodo_pago" value="Yape / Plin" data-currency="PEN">
+          <div class="pay-method-inner">
+            <div class="pay-method-ic" style="background:linear-gradient(135deg,#5E2D86,#8E24AA);">
+              <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 1.5a4.5 4.5 0 0 1 4.5 4.5v1.5h.75A2.25 2.25 0 0 1 19.5 9.75v9A3.75 3.75 0 0 1 15.75 22.5h-7.5A3.75 3.75 0 0 1 4.5 18.75v-9A2.25 2.25 0 0 1 6.75 7.5h.75V6A4.5 4.5 0 0 1 12 1.5zm0 1.5a3 3 0 0 0-3 3v1.5h6V6a3 3 0 0 0-3-3zm0 9a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/></svg>
+            </div>
+            <div class="pay-method-text">
+              <div class="pay-method-name">Yape o Plin</div>
+              <div class="pay-method-sub">Perú · S/ 100</div>
+            </div>
+          </div>
+        </label>
+
+        <label class="pay-method" data-method="transferencia">
+          <input type="radio" name="metodo_pago" value="Transferencia bancaria" data-currency="PEN">
+          <div class="pay-method-inner">
+            <div class="pay-method-ic" style="background:linear-gradient(135deg,#0D47A1,#1976D2);">
+              <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M4 10v7h3v-7H4zm6 0v7h3v-7h-3zM2 22h19v-3H2v3zm14-12v7h3v-7h-3zm-4.5-9L2 6v2h19V6l-9.5-5z"/></svg>
+            </div>
+            <div class="pay-method-text">
+              <div class="pay-method-name">Transferencia bancaria</div>
+              <div class="pay-method-sub">BCP · Interbank · BBVA · Scotiabank</div>
+            </div>
+          </div>
+        </label>
+
+        <label class="pay-method" data-method="paypal">
+          <input type="radio" name="metodo_pago" value="PayPal" data-currency="USD">
+          <div class="pay-method-inner">
+            <div class="pay-method-ic" style="background:linear-gradient(135deg,#003087,#009CDE);">
+              <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.254-.93 4.778-4.005 7.201-9.138 7.201h-2.19c-.502 0-.871.358-.95.851l-1.07 6.78-.301 1.917c-.05.317.166.616.482.668.027.005.054.007.082.007h4.166c.452 0 .835-.334.91-.78L13 17.5l.082-.452c.082-.495.514-.852.97-.852h.622c4.026 0 7.198-1.625 8.103-6.413.378-1.992.184-3.66-.847-4.866z"/></svg>
+            </div>
+            <div class="pay-method-text">
+              <div class="pay-method-name">PayPal</div>
+              <div class="pay-method-sub">Internacional · USD 35</div>
+            </div>
+          </div>
+        </label>
+
+        <label class="pay-method" data-method="tarjeta">
+          <input type="radio" name="metodo_pago" value="Tarjeta crédito/débito" data-currency="PEN">
+          <div class="pay-method-inner">
+            <div class="pay-method-ic" style="background:linear-gradient(135deg,#FF6F00,#FFB300);">
+              <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+            </div>
+            <div class="pay-method-text">
+              <div class="pay-method-name">Tarjeta crédito/débito</div>
+              <div class="pay-method-sub">Mercado Pago · Niubiz</div>
+            </div>
+          </div>
+        </label>
+
+        <label class="pay-method" data-method="wu">
+          <input type="radio" name="metodo_pago" value="Western Union / Wise" data-currency="USD">
+          <div class="pay-method-inner">
+            <div class="pay-method-ic" style="background:linear-gradient(135deg,#1B5E20,#43A047);">
+              <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            </div>
+            <div class="pay-method-text">
+              <div class="pay-method-name">Western Union / Wise</div>
+              <div class="pay-method-sub">Remesa internacional · USD 35</div>
+            </div>
+          </div>
+        </label>
+      </div>
+
+      <div class="field-error" id="err-metodo" style="margin-top:0;">Selecciona un método de pago</div>
+
+      <!-- Bloque informativo dinámico (cambia según método elegido) -->
+      <div class="pay-info" id="pay-info-block">
+        <strong>📲 Selecciona arriba un método de pago</strong> para ver las instrucciones específicas.
+      </div>
+
+      <div class="check-row">
+        <input type="checkbox" id="confirm" checked>
+        <label for="confirm">
+          Confirmo que mis datos son correctos y autorizo a Geomatica Ambiental a contactarme por WhatsApp y correo electrónico con información del curso, instrucciones de pago y enlaces del aula virtual.
+        </label>
+      </div>
+    </div>
+
+    <!-- Botón enviar -->
+    <div class="submit-row">
+      <button class="btn-submit" id="btn-enviar">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20.52 3.449C12.831-3.984.106 1.407.101 11.893c-.001 2.096.547 4.142 1.588 5.946L0 24l6.304-1.654c7.793 4.214 17.683-1.31 17.687-10.444.001-3.243-1.262-6.291-3.471-8.453zm-8.422 16.594c-1.872 0-3.706-.502-5.314-1.453l-.382-.227-3.726.977.995-3.633-.249-.396a8.526 8.526 0 0 1-1.305-4.535C2.119 4.137 11.591.567 16.226 5.205c4.632 4.631 1.092 14.038-5.706 14.038z"/>
+        </svg>
+        Enviar y reservar mi cupo
+      </button>
+      <div class="submit-note">Se abrirá WhatsApp con tu mensaje pre-formateado.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ====================== PANTALLA DE CONFIRMACIÓN ====================== -->
+<div class="confirmation" id="confirmation">
+  <div class="conf-card">
+    <div class="conf-icon">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+      </svg>
+    </div>
+    <h2>¡Mensaje enviado!</h2>
+    <p>Tus datos llegaron al WhatsApp de <strong>Geomatica Ambiental</strong>. Te responderemos en minutos con las instrucciones de pago.</p>
+
+    <div class="steps">
+      <strong style="display:block;margin-bottom:8px;color:var(--azul-oscuro);font-size:13px;letter-spacing:1px;text-transform:uppercase;">Siguientes pasos</strong>
+      <ol>
+        <li>Recibirás por WhatsApp el <strong>número Yape o Plin</strong> donde realizar el pago.</li>
+        <li>Realiza el pago de <strong>S/ 100 (USD 35)</strong> antes del 19 de junio.</li>
+        <li>Envía el <strong>voucher</strong> de pago al mismo WhatsApp.</li>
+        <li>Te agregaremos al <strong>grupo oficial del curso</strong> con el enlace del aula virtual.</li>
+      </ol>
+    </div>
+
+    <p style="font-size:12px;color:var(--gris-claro);">¿No te llegó respuesta en 1 hora? Escríbenos directamente:</p>
+    <div class="conf-actions">
+      <a class="btn-secondary" id="wa-link" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.449C12.831-3.984.106 1.407.101 11.893c-.001 2.096.547 4.142 1.588 5.946L0 24l6.304-1.654c7.793 4.214 17.683-1.31 17.687-10.444.001-3.243-1.262-6.291-3.471-8.453z"/></svg>
+        Abrir WhatsApp de nuevo
+      </a>
+      <button class="btn-secondary" onclick="resetForm()">Nuevo registro</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== FOOTER ====================== -->
+<footer class="footer">
+  <div class="footer-brand">Geomatica Ambiental · www.geomatica.pe</div>
+  <div>Ing. Nino Bravo Morales — Especialista en Geomática y Teledetección</div>
+  <div style="margin-top:6px;">
+    <a href="https://wa.me/51995664488" target="_blank">WhatsApp +51 995 664 488</a>
+    · <a href="mailto:nino@geomatica.pe">nino@geomatica.pe</a>
+  </div>
+</footer>
+
+<!-- ====================== SCRIPT ====================== -->
+<script>
+(function() {
+  'use strict';
+
+  // ====== CONFIGURACIÓN ======
+  const WHATSAPP_DESTINO = '51995664488';  // sin el signo +
+  const STORAGE_KEY = 'geoforest_inscripcion_backup';
+
+  // ====== TEXTOS DINÁMICOS POR MÉTODO DE PAGO ======
+  const PAY_INFO_TEXTS = {
+    'Yape / Plin': {
+      icon: '📲',
+      title: 'Yape o Plin',
+      body: 'Tras enviar el formulario, recibirás por WhatsApp el <strong>número Yape/Plin</strong> donde realizar el pago de <strong>S/ 100</strong>. Envía la captura del voucher por la misma vía para integrarte al grupo del curso.'
+    },
+    'Transferencia bancaria': {
+      icon: '🏦',
+      title: 'Transferencia bancaria',
+      body: 'Tras enviar el formulario, recibirás los <strong>números de cuenta</strong> y CCI (BCP, Interbank, BBVA o Scotiabank) para realizar la transferencia de <strong>S/ 100</strong>. Envía la constancia de operación por WhatsApp.'
+    },
+    'PayPal': {
+      icon: '💸',
+      title: 'PayPal',
+      body: 'Tras enviar el formulario, recibirás el <strong>enlace PayPal o correo asociado</strong> para realizar el pago de <strong>USD 35</strong>. Envía el comprobante por WhatsApp.'
+    },
+    'Tarjeta crédito/débito': {
+      icon: '💳',
+      title: 'Tarjeta de crédito o débito',
+      body: 'Tras enviar el formulario, recibirás un <strong>link de pago</strong> de Mercado Pago o Niubiz para pagar <strong>S/ 100 / USD 35</strong> con tu tarjeta Visa, Mastercard o American Express.'
+    },
+    'Western Union / Wise': {
+      icon: '🌎',
+      title: 'Western Union o Wise',
+      body: 'Tras enviar el formulario, recibirás los <strong>datos del destinatario</strong> (nombre completo, ciudad, documento) para enviar <strong>USD 35</strong> por Western Union o Wise. Envía el número MTCN/comprobante por WhatsApp.'
+    }
+  };
+
+  // ====== ELEMENTOS ======
+  const btn = document.getElementById('btn-enviar');
+  const formScreen = document.getElementById('form-screen');
+  const confirmation = document.getElementById('confirmation');
+  const waLink = document.getElementById('wa-link');
+  const payInfoBlock = document.getElementById('pay-info-block');
+  const errMetodo = document.getElementById('err-metodo');
+
+  // ====== ACTUALIZAR BLOQUE INFO SEGÚN MÉTODO ELEGIDO ======
+  document.querySelectorAll('input[name="metodo_pago"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      const info = PAY_INFO_TEXTS[radio.value];
+      if (info) {
+        payInfoBlock.innerHTML =
+          `<strong>${info.icon} ${info.title}:</strong> ${info.body} ` +
+          `El mensaje llegará al WhatsApp <strong>+51 995 664 488</strong> (Ing. Nino Bravo).`;
+      }
+      errMetodo.classList.remove('show');
+    });
+  });
+
+  // Campos requeridos
+  const requiredFields = [
+    { id: 'nombres', errId: 'err-nombres' },
+    { id: 'apellidos', errId: 'err-apellidos' },
+    { id: 'dni', errId: 'err-dni' },
+    { id: 'email', errId: 'err-email', type: 'email' },
+    { id: 'whatsapp', errId: 'err-whatsapp', minLen: 7 },
+    { id: 'pais', errId: 'err-pais' },
+    { id: 'ciudad', errId: 'err-ciudad' },
+    { id: 'profesion', errId: 'err-profesion' }
+  ];
+
+  // ====== RESTAURAR BORRADOR (si el usuario recargó) ======
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY + '_draft') || '{}');
+    Object.keys(saved).forEach(k => {
+      const el = document.getElementById(k);
+      if (el && saved[k]) el.value = saved[k];
+    });
+  } catch (e) { /* ignorar */ }
+
+  // ====== GUARDAR BORRADOR EN CADA CAMBIO ======
+  document.querySelectorAll('input, select').forEach(el => {
+    el.addEventListener('change', saveDraft);
+    el.addEventListener('blur', saveDraft);
+  });
+
+  function saveDraft() {
+    const draft = {};
+    requiredFields.forEach(f => {
+      const el = document.getElementById(f.id);
+      if (el) draft[f.id] = el.value;
+    });
+    ['institucion', 'origen'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) draft[id] = el.value;
+    });
+    try {
+      localStorage.setItem(STORAGE_KEY + '_draft', JSON.stringify(draft));
+    } catch (e) { /* sin localStorage, no pasa nada */ }
+  }
+
+  // ====== VALIDACIÓN ======
+  function validate() {
+    let valid = true;
+    let firstInvalid = null;
+
+    requiredFields.forEach(f => {
+      const el = document.getElementById(f.id);
+      const err = document.getElementById(f.errId);
+      const val = el.value.trim();
+
+      let isValid = val.length > 0;
+
+      if (isValid && f.type === 'email') {
+        isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+      }
+      if (isValid && f.minLen) {
+        // Para teléfono: quitamos espacios, guiones, paréntesis, +
+        const digits = val.replace(/[^\d]/g, '');
+        isValid = digits.length >= f.minLen;
+      }
+
+      if (!isValid) {
+        el.classList.add('error');
+        err.classList.add('show');
+        if (!firstInvalid) firstInvalid = el;
+        valid = false;
+      } else {
+        el.classList.remove('error');
+        err.classList.remove('show');
+      }
+    });
+
+    // Validar método de pago seleccionado
+    const metodo = document.querySelector('input[name="metodo_pago"]:checked');
+    if (!metodo) {
+      errMetodo.classList.add('show');
+      if (!firstInvalid) {
+        firstInvalid = document.querySelector('.pay-methods');
+      }
+      valid = false;
+    } else {
+      errMetodo.classList.remove('show');
+    }
+
+    if (firstInvalid) {
+      firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (firstInvalid.focus) firstInvalid.focus({ preventScroll: true });
+    }
+    return valid;
+  }
+
+  // ====== CONSTRUIR MENSAJE WHATSAPP ======
+  function buildMessage() {
+    const v = id => (document.getElementById(id).value || '').trim();
+
+    const nombres = v('nombres');
+    const apellidos = v('apellidos');
+    const dni = v('dni');
+    const email = v('email');
+    const whatsapp = v('whatsapp');
+    const pais = v('pais');
+    const ciudad = v('ciudad');
+    const profesion = v('profesion');
+    const institucion = v('institucion') || '—';
+    const origen = v('origen') || '—';
+
+    const metodoEl = document.querySelector('input[name="metodo_pago"]:checked');
+    const metodo = metodoEl ? metodoEl.value : '—';
+    const currency = metodoEl ? metodoEl.dataset.currency : 'PEN';
+    const monto = currency === 'USD' ? 'USD 35' : 'S/ 100';
+
+    const fecha = new Date().toLocaleString('es-PE', {
+      timeZone: 'America/Lima',
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit'
+    });
+
+    const lines = [
+      '🌳 *INSCRIPCIÓN — Especialización GeoForest Tools*',
+      '',
+      'Hola Ing. Nino, deseo reservar mi cupo para la especialización. Estos son mis datos:',
+      '',
+      '👤 *DATOS PERSONALES*',
+      `• Nombres: ${nombres}`,
+      `• Apellidos: ${apellidos}`,
+      `• DNI/Pasaporte: ${dni}`,
+      `• Email: ${email}`,
+      `• WhatsApp: ${whatsapp}`,
+      `• País: ${pais}`,
+      `• Ciudad: ${ciudad}`,
+      '',
+      '🎓 *PERFIL PROFESIONAL*',
+      `• Profesión: ${profesion}`,
+      `• Institución: ${institucion}`,
+      `• Me enteré por: ${origen}`,
+      '',
+      '📚 *CURSO*',
+      '• Especialización en Monitoreo Forestal, Biodiversidad y Cambio de Cobertura',
+      '• Plugin GeoForest Tools en QGIS',
+      '• Fechas: 01, 02 y 03 de julio 2026 (18:00 — 21:00 hora Perú)',
+      '• Modalidad: Virtual vía Google Meet',
+      '',
+      '💳 *MÉTODO DE PAGO ELEGIDO*',
+      `• ${metodo}`,
+      `• Monto a pagar: ${monto} (precio de lanzamiento, válido hasta el 19 de junio)`,
+      '',
+      'Quedo a la espera de las instrucciones específicas para realizar el pago y enviar el voucher.',
+      '',
+      '¡Muchas gracias!',
+      '',
+      `_Solicitud generada: ${fecha} (Hora Perú)_`
+    ];
+
+    return lines.join('\n');
+  }
+
+  // ====== ENVIAR ======
+  btn.addEventListener('click', function() {
+    if (!validate()) return;
+
+    const confirm = document.getElementById('confirm').checked;
+    if (!confirm) {
+      alert('Por favor confirma que tus datos son correctos para continuar.');
+      return;
+    }
+
+    // Guardar registro completo (para historial local)
+    try {
+      const records = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      const v = id => (document.getElementById(id).value || '').trim();
+      const metodoEl = document.querySelector('input[name="metodo_pago"]:checked');
+      records.push({
+        timestamp: new Date().toISOString(),
+        nombres: v('nombres'), apellidos: v('apellidos'),
+        dni: v('dni'), email: v('email'), whatsapp: v('whatsapp'),
+        pais: v('pais'), ciudad: v('ciudad'),
+        profesion: v('profesion'), institucion: v('institucion'), origen: v('origen'),
+        metodo_pago: metodoEl ? metodoEl.value : ''
+      });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+    } catch (e) { /* sin localStorage, no pasa nada */ }
+
+    // Construir y abrir WhatsApp
+    const msg = buildMessage();
+    const url = `https://wa.me/${WHATSAPP_DESTINO}?text=${encodeURIComponent(msg)}`;
+
+    // Guardar link para el botón "Abrir WhatsApp de nuevo"
+    waLink.href = url;
+
+    // Abrir en nueva pestaña
+    const newWin = window.open(url, '_blank');
+
+    // Si el navegador bloqueó la pestaña, redirigir en la misma
+    if (!newWin) {
+      window.location.href = url;
+      return;
+    }
+
+    // Mostrar pantalla de confirmación
+    formScreen.style.display = 'none';
+    confirmation.classList.add('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // ====== RESET (para "Nuevo registro") ======
+  window.resetForm = function() {
+    document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"]').forEach(el => el.value = '');
+    document.querySelectorAll('select').forEach(el => el.value = '');
+    document.querySelectorAll('input[name="metodo_pago"]').forEach(el => el.checked = false);
+    payInfoBlock.innerHTML = '<strong>📲 Selecciona arriba un método de pago</strong> para ver las instrucciones específicas.';
+    document.getElementById('confirm').checked = true;
+    try { localStorage.removeItem(STORAGE_KEY + '_draft'); } catch (e) {}
+    formScreen.style.display = '';
+    confirmation.classList.remove('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // ====== LIMPIAR ERROR AL TIPEAR ======
+  requiredFields.forEach(f => {
+    const el = document.getElementById(f.id);
+    if (!el) return;
+    el.addEventListener('input', () => {
+      el.classList.remove('error');
+      const err = document.getElementById(f.errId);
+      if (err) err.classList.remove('show');
+    });
+    el.addEventListener('change', () => {
+      el.classList.remove('error');
+      const err = document.getElementById(f.errId);
+      if (err) err.classList.remove('show');
+    });
+  });
+
+})();
+</script>
+
+</body>
+</html>
